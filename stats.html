@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solo Leveling Stats</title>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Solo Leveling">
+    <link rel="apple-touch-icon" href="/images/icon-192x192.png">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap');
+        
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Rajdhani', sans-serif;
+            background-color: #0a0a1a;
+            color: #fff;
+            overflow-x: hidden;
+            background-image: url(images/sparks.png); 
+            background-position: center center, center center; 
+             background-size: 100% auto, 100% auto; 
+             background-repeat: no-repeat, no-repeat;
+     
+
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+      
+        h1 {
+            text-align: center;
+            color: #8e2de2;
+            font-size: 48px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 0 10px rgba(142, 45, 226, 0.5);
+        }
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        .stat-card {
+            background-color: rgba(22, 33, 62, 0.8);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 10px;
+            text-align: center;
+            width: 180px;
+            box-shadow: 0 0 20px rgba(142, 45, 226, 0.3);
+            transition: all 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 25px rgba(142, 45, 226, 0.5);
+        }
+        .stat-card h3 {
+            margin: 0;
+            color: #8e2de2;
+            font-size: 20px;
+        }
+        .stat-card p {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 10px 0 0;
+            color: #4a00e0;
+        }
+        .rank-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .rank {
+            font-size: 96px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #8e2de2, #4a00e0);
+            
+            text-shadow: 0 0 20px rgba(142, 45, 226, 0.5);
+        }
+        .hexagon-container {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            margin: 50px auto;
+        }
+        .hexagon {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(142, 45, 226, 0.1);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            transition: all 0.3s ease;
+        }
+        .hexagon-bg {
+            background-color: rgba(74, 0, 224, 0.05);
+        }
+        .stat-point {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background-color: #8e2de2;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px #8e2de2;
+            transition: all 0.3s ease;
+        }
+        .stat-label {
+            position: absolute;
+            font-size: 16px;
+            font-weight: bold;
+            transform: translate(-50%, -50%);
+            color: #8e2de2;
+            text-shadow: 0 0 5px rgba(142, 45, 226, 0.5);
+        }
+        .stat-line {
+            position: absolute;
+            background-color: rgba(142, 45, 226, 0.5);
+            transform-origin: bottom center;
+            transition: all 0.3s ease;
+        }
+        .glow-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(142, 45, 226, 0.2) 0%, rgba(10, 10, 26, 0) 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .hexagon-container:hover .glow-effect {
+            opacity: 1;
+        }
+        .hexagon-container:hover .hexagon {
+            transform: scale(1.05);
+        }
+        .hexagon-container:hover .stat-point {
+            transform: translate(-50%, -50%) scale(1.2);
+        }
+        .btn {
+        background-color: #4e00ff;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 18px;
+        margin: 4px 2px;
+        cursor: pointer;
+        transition: 0.3s;
+        border-radius: 5px;
+        text-transform: uppercase;
+        font-weight: 600;
+        letter-spacing: 1px;
+        box-shadow: 0 0 15px rgba(78, 0, 255, 0.5);
+    }
+    .btn:hover {
+        background-color: #3700b3;
+        box-shadow: 0 0 20px rgba(78, 0, 255, 0.8);
+    }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hunter Stats</h1>
+        <div class="rank-container">
+            <div class="rank" id="rank"></div>
+        </div>
+        <div class="stats-container">
+            <div class="stat-card">
+                <h3>Strength</h3>
+                <p id="strength"></p>
+            </div>
+            <div class="stat-card">
+                <h3>Agility</h3>
+                <p id="agility"></p>
+            </div>
+            <div class="stat-card">
+                <h3>Intelligence</h3>
+                <p id="intelligence"></p>
+            </div>
+            <div class="stat-card">
+                <h3>Charisma</h3>
+                <p id="charisma"></p>
+            </div>
+        </div>
+        <div class="hexagon-container">
+            <div class="hexagon hexagon-bg"></div>
+            <div class="hexagon" id="stat-hexagon"></div>
+            <div class="glow-effect"></div>
+        </div>
+    </div>
+
+    <script>
+    
+    //use user 0 coz always first since db gets first user after login 
+    //no need to search for user
+        function getUserData(callback) {
+            const dbName = "SoloLevelingDB";
+            const request = indexedDB.open(dbName, 1);
+
+            request.onerror = (event) => {
+                console.error(" error DB!!!:", event.target.error);
+            };
+
+            request.onsuccess = (event) => {
+                const db = event.target.result;
+                const transaction = db.transaction(["users"], "readonly");
+                const objectStore = transaction.objectStore("users");
+                const getRequest = objectStore.getAll();
+                //maybe add page for redirect?!?!?
+                //maybe go offline page!??!
+                //ofline.html add it no need for cache 
+                getRequest.onsuccess = (event) => {
+                    const users = event.target.result;
+                    if (users.length > 0) {
+                        callback(users[0]);  
+                    } else {
+                        //add offline here
+                        
+
+                        //console.error("No user found");
+                    }
+                };
+            };
+        }
+
+        
+        function updateUI(userData) {
+          
+            document.getElementById('rank').textContent = userData.rank;
+            document.getElementById('strength').textContent = userData.stats.strength;
+            document.getElementById('agility').textContent = userData.stats.agility;
+            document.getElementById('intelligence').textContent = userData.stats.intelligence;
+            document.getElementById('charisma').textContent = userData.stats.charisma;
+
+            updateHexagon(userData.stats);
+        }
+
+       //always update before ui 
+        function updateHexagon(stats) {
+            const container = document.querySelector('.hexagon-container');
+            const hexagon = document.getElementById('stat-hexagon');
+            const maxStat = 100; 
+            const centerX = 200;
+            const centerY = 200;
+            const radius = 195;
+
+            //angles fr
+            const statPoints = [
+                { name: 'Strength', angle: 0 },
+                { name: 'Agility', angle: 60 },
+                { name: 'Intelligence', angle: 120 },
+                { name: 'Charisma', angle: 180 },
+                { name: 'Strength', angle: 240 }, 
+                { name: 'Agility', angle: 300 }   
+            ];
+
+            let clipPath = statPoints.map((point, index) => {
+                const stat = stats[point.name.toLowerCase()] || 0;
+                const distance = (stat / maxStat) * radius;
+                const x = centerX + distance * Math.cos(point.angle * Math.PI / 180);
+                const y = centerY + distance * Math.sin(point.angle * Math.PI / 180);
+
+             
+                const statPoint = document.createElement('div');
+                statPoint.className = 'stat-point';
+                statPoint.style.left = `${x}px`;
+                statPoint.style.top = `${y}px`;
+                container.appendChild(statPoint);
+
+
+                    // maybe cosin idk check
+                const labelDistance = radius + 25;
+                const labelX = centerX + labelDistance * Math.cos(point.angle * Math.PI / 180);
+                const labelY = centerY + labelDistance * Math.sin(point.angle * Math.PI / 180);
+                const label = document.createElement('div');
+                label.className = 'stat-label';
+                label.textContent = point.name;
+                label.style.left = `${labelX}px`;
+                label.style.top = `${labelY}px`;
+                container.appendChild(label);
+
+                return `${x}px ${y}px`;
+            }).join(', ');
+
+            hexagon.style.clipPath = `polygon(${clipPath})`;
+        }
+
+       //neeed call ui update
+        getUserData(updateUI);
+    </script>
+
+
+
+<!-- change button or keep it big at bottom maybe?  -->
+<a href ="index.html"button type="submit" button style = "display:block; margin: 0 auto;"class="btn">Back</button>
+  
+  
+
+
+
+</body>
+</html>

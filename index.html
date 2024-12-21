@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="manifest" href="/manifest.json">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="MyPWA">
+    <link rel="apple-touch-icon" href="/images/icon-192x192.png">
+    <title>Solo Leveling</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #26195c;
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: url(images/sung.png), url(images/sparks.png); 
+            background-position: center center, center center; 
+            background-size: 40% auto, 100% auto; 
+            background-repeat: no-repeat, no-repeat;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background-color: rgba(255, 165, 0, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 5s infinite linear;
+        }
+
+        @media only screen and (max-width: 1024px) {
+            body {
+                font-size: 16px;
+                padding: 15px;
+            }
+        }
+
+        @media only screen and (max-width: 767px) {
+            body {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+
+        @media only screen and (max-width: 480px) {
+            body {
+                font-size: 12px;
+                padding: 5px;
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) translateX(50px);
+                opacity: 0;
+            }
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .search-container {
+            position: relative;
+        }
+
+        .search-input {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 20px;
+            padding: 0.5rem 1rem 0.5rem 2.5rem;
+            color: white;
+        }
+
+        .main-content {
+            display: flex;
+            justify-content: space-between;
+            padding: 2rem 4rem;
+            margin-top: 2rem;
+        }
+
+        .character-info {
+            margin-left: 7rem;
+            max-width: 600px;
+        }
+
+        .rank {
+            font-size: 1.25rem;
+            letter-spacing: 2px;
+        }
+
+        .title {
+            color: #ccc;
+            margin-top: 0.5rem;
+        }
+
+        .name {
+            font-size: 4rem;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .korean-name {
+            font-size: 2rem;
+        }
+
+        .description {
+            color: #ccc;
+            line-height: 1.6;
+            margin-top: 2rem;
+        }
+
+        .side-nav {
+            position: fixed;
+            right: 4rem;
+            top: 50%;
+            transform: translateY(-50%);
+            text-align: center; 
+        }
+
+        .side-nav h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: white;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); 
+        }
+
+        .side-nav a {
+            display: block;
+            font-size: 1.5rem; 
+            color: white; 
+            text-decoration: none;
+            margin: 1rem 0; 
+            transition: color 0.3s, transform 0.3s; 
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); 
+        }
+
+        .side-nav a:hover {
+            color: #ae00ff; 
+            transform: scale(1.1);
+        }
+
+        body {
+            background-color: #1a1040;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        for (let i = 0; i < 20; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.top = Math.random() * 100 + 'vh';
+            particle.style.animationDelay = Math.random() * 5 + 's';
+            document.body.appendChild(particle);
+        }
+    </script>
+
+    <nav>
+        <div class="logo">나 혼자만 레벨업</div>
+        <div class="nav-links"></div>
+        <div class="search-container">
+            <input type="text" placeholder="Search Here..." class="search-input">
+        </div>
+    </nav>
+
+    <div class="character-info">
+        <div class="rank hunter-rank">Loading...</div>
+        <div class="title">HUNTER NAME A.K.A</div>
+        <div class="name hunter-name">Loading...</div>
+        <div class="korean-name">(Loading...)</div>
+        <div class="description">
+            <p>This is a custom profile based on the user data.</p>
+            <p>The rank and username are dynamically loaded based on the database entry.</p>
+            <p><strong>Become Stronger Every Day!</strong> Your journey has just begun. The path ahead is filled with challenges, but every battle, every quest, and every victory makes you stronger. Keep pushing your limits, never give up, and rise to the top. Your potential is limitless, and you are destined for greatness. Strive to unlock your true strength!</p>
+        </div>
+    </div>
+    
+
+        <div class="side-nav">
+            <a href="stats.html">STATS</a>
+            <a href="quests.html">QUESTS</a>
+            <a href="#">REWARDS</a>
+        </div>
+    </div>
+
+    <script>
+       document.addEventListener('DOMContentLoaded', () => {
+    let db;
+    const currentHunter = localStorage.getItem('currentHunter');  // Assume 'currentHunter' stores the username
+
+    const request = indexedDB.open('SoloLevelingDB', 1);
+
+    request.onsuccess = (event) => {
+        db = event.target.result;
+        const transaction = db.transaction(['users'], 'readonly');  // Assuming 'users' is the object store name
+        const store = transaction.objectStore('users');
+
+        // Fetch user data using the current hunter (username)
+        store.get(currentHunter).onsuccess = (event) => {
+            const hunterData = event.target.result;
+            if (hunterData) {
+                // Display the username and rank dynamically
+                document.querySelector('.hunter-name').textContent = hunterData.username;  // Display username
+                document.querySelector('.hunter-rank').textContent = `Rank - ${hunterData.rank}`;  // Display rank
+
+                // Optionally, update the Korean name if stored in the IndexedDB (assuming it's stored in hunterData.koreanName)
+                document.querySelector('.korean-name').textContent = `(${hunterData.koreanName || 'No Korean Name'})`;
+            }
+        };
+    };
+});
+
+    </script>
+</body>
+</html>

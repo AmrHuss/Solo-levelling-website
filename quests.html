@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="manifest" href="/manifest.json">
+    <title>Daily Workout Quest</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        body {
+            background-color: #140c36;
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: url(images/sparks.png);
+            background-position: center center;
+            background-size: 100% auto;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .quest-box {
+            width: 700px;
+            background-color: rgba(31, 43, 199, 0.9);
+            border: 3px solid rgb(0, 175, 245);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 4rem auto;
+            box-shadow: 0 0 20px rgba(0, 199, 235, 0.3);
+        }
+
+        .quest-title {
+            font-size: 1.8rem;
+            color: rgb(0, 199, 235);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .quest-description {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .quest-requirements {
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .requirement {
+            margin: 1rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        input[type="number"] {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgb(0, 199, 235);
+            border-radius: 5px;
+            padding: 8px;
+            color: white;
+            width: 80px;
+            font-size: 1rem;
+        }
+
+        .progress-label {
+            font-size: 0.9rem;
+            color: rgb(0, 199, 235);
+        }
+
+        .btn {
+            background-color: #4e00ff;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            font-size: 18px;
+            margin: 2rem auto 0;
+            cursor: pointer;
+            transition: 0.3s;
+            border-radius: 5px;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+            box-shadow: 0 0 15px rgba(78, 0, 255, 0.5);
+            width: 200px;
+        }
+
+        .btn:hover {
+            background-color: #3700b3;
+            box-shadow: 0 0 20px rgba(78, 0, 255, 0.8);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            margin-top: 1rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: rgb(0, 199, 235);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .completion-message {
+            display: none;
+            background-color: rgba(0, 255, 0, 0.2);
+            border: 2px solid rgb(0, 255, 0);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 1.2rem;
+            color: rgb(0, 255, 0);
+        }
+    </style>
+</head>
+<body>
+    <div class="quest-box">
+        <h1 class="quest-title">Hunter challenge</h1>
+        <p class="quest-description">Complete this workout to level up your strength and endurance!</p>
+        
+        <div class="quest-requirements">
+            <div class="requirement">
+                <span>Push-ups (0/100)</span>
+                <div class="input-group">
+                    <input type="number" min="0" max="100" id="pushups" onchange="updateProgress('pushups', 100)">
+                    <span class="progress-label">reps</span>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="pushups-progress"></div>
+            </div>
+
+            <div class="requirement">
+                <span>Sit-ups (0/100)</span>
+                <div class="input-group">
+                    <input type="number" min="0" max="100" id="situps" onchange="updateProgress('situps', 100)">
+                    <span class="progress-label">reps</span>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="situps-progress"></div>
+            </div>
+
+            <div class="requirement">
+                <span>Running (0/10)</span>
+                <div class="input-group">
+                    <input type="number" min="0" max="10" id="running" onchange="updateProgress('running', 10)">
+                    <span class="progress-label">km</span>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="running-progress"></div>
+            </div>
+        </div>
+
+        <div id="completion-message" class="completion-message">
+            Successfully completed your workout! Good job!
+        </div>
+
+        <a href="index.html" class="btn">Back</a>
+    </div>
+
+    
+
+    <script>
+      //savevalues then wehn user logs into page put them ther
+      // maybe in db or cache it or som
+    
+        function updateProgress(exercise, max) {
+            const input = document.getElementById(exercise);
+            const progressBar = document.getElementById(`${exercise}-progress`);
+            const value = parseInt(input.value) || 0;
+            const percentage = Math.min((value / max) * 100, 100);
+            progressBar.style.width = `${percentage}%`;
+            
+            //USE PARSE INT
+         
+            const pushupsValue = parseInt(document.getElementById('pushups').value) || 0;
+            const situpsValue = parseInt(document.getElementById('situps').value) || 0;
+            const runningValue = parseInt(document.getElementById('running').value) || 0;
+
+            const completionMessage = document.getElementById('completion-message');
+            
+            if (pushupsValue >= 100 && situpsValue >= 100 && runningValue >= 10) {
+                completionMessage.style.display = 'block';
+
+                  } else {
+                completionMessage.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

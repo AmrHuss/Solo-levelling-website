@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="/Week3/manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Solo Leveling">
+    <link rel="apple-touch-icon" href="/images/icon-192x192.png">
+    <meta name="theme-color" content="#4e00ff">
+    
+    <title>Solo Leveling Signup</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap');
+        
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Rajdhani', sans-serif;
+            overflow: hidden;
+            color: #fff;
+        }
+
+        /* Default styles for desktop and large screens */
+        body {
+            font-size: 18px;
+            padding: 20px;
+            background-color: #fff;
+        }
+
+        /* Styles for tablets and larger mobile screens */
+        @media only screen and (max-width: 1024px) {
+            body {
+                font-size: 16px;
+                padding: 15px;
+            }
+        }
+
+        /* Styles for smaller mobile screens */
+        @media only screen and (max-width: 767px) {
+            body {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+
+        /* Styles for extra small screens */
+        @media only screen and (max-width: 480px) {
+            body {
+                font-size: 12px;
+                padding: 5px;
+            }
+        }
+
+        .offline-indicator {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: #ff4444;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            display: none;
+            z-index: 1000;
+        }
+
+        #myVideo {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1000;
+            background: url('https://via.placeholder.com/1920x1080/1a1a2e/1a1a2e') no-repeat;
+            background-size: cover;
+        }
+
+        .content {
+            position: fixed;
+            top: 0;
+            background: rgba(0, 0, 0, 0.5);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .btn {
+            background-color: #4e00ff;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 18px;
+            margin: 4px 2px;
+            cursor: pointer;
+            transition: 0.3s;
+            border-radius: 5px;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+            box-shadow: 0 0 15px rgba(78, 0, 255, 0.5);
+        }
+
+        .btn:hover {
+            background-color: #3700b3;
+            box-shadow: 0 0 20px rgba(78, 0, 255, 0.8);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.8);
+        }
+
+        .modal-content {
+            background-color: rgba(26, 26, 46, 0.9);
+            margin: 5% auto;
+            padding: 30px;
+            border: 2px solid #4e00ff;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 10px;
+            box-shadow: 0 0 25px rgba(78, 0, 255, 0.3);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #4e00ff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        input[type=text], input[type=password], input[type=number] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 2px solid #4e00ff;
+            box-sizing: border-box;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border-radius: 5px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 16px;
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        h2 {
+            text-align: center;
+            color: #4e00ff;
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #4e00ff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-status">You are offline</div>
+
+    <video autoplay muted loop id="myVideo">
+        <source src="images/main vid.mp4" type="video/mp4">
+    </video>
+
+    <div class="content">
+        <button class="btn" id="signupBtn">Sign Up</button>
+        <button class="btn" id="loginBtn">Log In</button>
+    </div>
+
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Sign Up</h2>
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="strength">Strength</label>
+                    <input type="number" id="strength" required>
+                </div>
+                <div class="form-group">
+                    <label for="agility">Agility</label>
+                    <input type="number" id="agility" required>
+                </div>
+                <div class="form-group">
+                    <label for="intelligence">Intelligence</label>
+                    <input type="number" id="intelligence" required>
+                </div>
+                <div class="form-group">
+                    <label for="charisma">Charisma</label>
+                    <input type="number" id="charisma" required>
+                </div>
+                <button type="submit" class="btn">Sign Up</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Log In</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginUsername">Username</label>
+                    <input type="text" id="loginUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn">Log In</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Offline status handling
+        const offlineStatus = document.querySelector('.offline-status');
+        
+        function updateOnlineStatus() {
+            if (navigator.onLine) {
+                offlineStatus.style.display = 'none';
+            } else {
+                offlineStatus.style.display = 'block';
+            }
+        }
+
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
+        updateOnlineStatus();
+
+        // Modal handling
+        const signupBtn = document.getElementById("signupBtn");
+        const loginBtn = document.getElementById("loginBtn");
+        const signupModal = document.getElementById("signupModal");
+        const loginModal = document.getElementById("loginModal");
+        const closeBtns = document.getElementsByClassName("close");
+
+        signupBtn.onclick = () => signupModal.style.display = "block";
+        loginBtn.onclick = () => loginModal.style.display = "block";
+
+        for (let closeBtn of closeBtns) {
+            closeBtn.onclick = function() {
+                signupModal.style.display = "none";
+                loginModal.style.display = "none";
+            }
+        }
+
+        window.onclick = (event) => {
+            if (event.target === signupModal || event.target === loginModal) {
+                signupModal.style.display = "none";
+                loginModal.style.display = "none";
+            }
+        }
+
+        // Calculate rank based on total points
+        function calculateRank(totalPoints) {
+            if (totalPoints < 100) return "D";
+            if (totalPoints < 200) return "C";
+            if (totalPoints < 300) return "B";
+            if (totalPoints < 350) return "A";
+            if (totalPoints < 400) return "S";
+            return "SS";
+        }
+
+        // Sign up form handling
+        document.getElementById("signupForm").onsubmit = function(e) {
+            e.preventDefault();
+            
+            const user = {
+                username: document.getElementById("username").value,
+                password: document.getElementById("password").value,
+                stats: {
+                    strength: parseInt(document.getElementById("strength").value),
+                    agility: parseInt(document.getElementById("agility").value),
+                    intelligence: parseInt(document.getElementById("intelligence").value),
+                    charisma: parseInt(document.getElementById("charisma").value)
+                }
+            };
+
+            // Calculate total points and rank
+            const totalPoints = Object.values(user.stats).reduce((sum, stat) => sum + stat, 0);
+            user.rank = calculateRank(totalPoints);
+
+            // Get existing users or initialize empty object
+            let users = JSON.parse(localStorage.getItem('users') || '{}');
+
+            // Check if username already exists
+            if (users[user.username]) {
+                alert("Username already exists!");
+                return;
+            }
+
+            // Store user
+            users[user.username] = user;
+            localStorage.setItem('users', JSON.stringify(users));
+
+            alert(`Signup successful! Your rank is ${user.rank}`);
+            signupModal.style.display = "none";
+            document.getElementById("signupForm").reset();
+        };
+
+        // Login form handling
+        document.getElementById("loginForm").onsubmit = function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById("loginUsername").value;
+            const password = document.getElementById("loginPassword").value;
+
+            // Get users from localStorage
+            const users = JSON.parse(localStorage.getItem('users') || '{}');
+            const user = users[username];
+
+            if (user && user.password === password) {
+                // Store current user
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                alert(`Login successful! Welcome back, ${username} (Rank ${user.rank})`);
+                loginModal.style.display = "none";
+                document.getElementById("loginForm").reset();
+                window.location.href = "index.html";
+            } else {
+                alert("Invalid username or password!");
+            }
+        };
+    </script>
+</body>
+</html>
