@@ -226,13 +226,13 @@
     <script>
        document.addEventListener('DOMContentLoaded', () => {
     let db;
-    const currentHunter = localStorage.getItem('currentHunter');  // Assume 'currentHunter' stores the username
+    const currentHunter = localStorage.getItem('currentHunter');  //  'currentHunter' stores the username
 
     const request = indexedDB.open('SoloLevelingDB', 1);
 
     request.onsuccess = (event) => {
         db = event.target.result;
-        const transaction = db.transaction(['users'], 'readonly');  // Assuming 'users' is the object store name
+        const transaction = db.transaction(['users'], 'readonly');  //  'users' is the  store name
         const store = transaction.objectStore('users');
 
         // Fetch user data using the current hunter (username)
